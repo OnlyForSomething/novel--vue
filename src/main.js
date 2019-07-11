@@ -6,6 +6,7 @@ import router from './router'
 import Axios from 'axios'
 
 import 'element-ui/lib/theme-chalk/index.css'
+import './assets/icon/iconfont.css' // 第三方小图标
 import ElementUI from 'element-ui'
 // import { Button, Select, Carousel, CarouselItem } from 'element-ui'
 // Vue.use(Button)

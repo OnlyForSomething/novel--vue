@@ -42,7 +42,6 @@ export default {
   methods: {
     hideLogin: function () {
       this.show = 1 ? 0 : this.show
-      console.log(this.show)
       // 向父组件传值 hide为key 与在父组件中使用子组件时的自定义事件(@hide)同名 第二个参数为值
       this.$emit('hide', this.show)
     }
