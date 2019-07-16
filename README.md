@@ -51,3 +51,11 @@ clearErrors: function (name) {
             this.errors.repassword = ''
          }
    }
+
+2019-7-16
+1.Method "showPassword" has already been defined as a prop
+2.Avoid mutating a prop directly since the value will be overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutated: "showPassword"
+3.在触发改密和注册页面点击事件@iClick="showPassword"时   都会报错 Invalid prop: type check failed for prop "showPassword". Expected Boolean, got Function 明明是触发一个事件触发一个
+函数方法，怎么就Expected Boolean了呢？
+解决：将方法名showPassword修改为其它名字就ok了
+原因：类似Java的保留关键字？(在方法抽取时，只有showPassword报错 改为viewPassword后以上3个错误都没了)

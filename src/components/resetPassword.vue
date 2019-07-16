@@ -1,13 +1,13 @@
 <template>
   <div class="reset_form">
     <!--改密码的账号-->
-    <InputGroup class="input" type="text" :readonly=readonly v-model="formdata.username" />
+    <InputGroup class="input" type="text" :readonly=readonly v-model="formdata.account" />
       <!--新密码-->
     <InputGroup name="password" class="input" :type="type" v-model="formdata.password"
                 placeholder="6-16位由字母、数字组成的密码"
                 :iTitle="iTitle"
                 :iClass="iClass"
-                @iClick="showPassword"
+                @iClick="viewPassword"
                 @inputBlur="validatePassword"
                 @inputFocus="clearErrors"
                 :error="errors.password"/>
@@ -40,7 +40,7 @@ export default {
   data () {
     return {
       formdata: {
-        username: this.$route.query.username, // 接收路由传的参数
+        account: this.$route.query.account, // 接收路由传的参数
         password: '',
         phone: ''
       },
@@ -62,7 +62,7 @@ export default {
   methods: {
     validatePassword: function () {
       let reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/
-      if (!this.formdata.password.trim()) {
+      if (!this.formdata.password.replace(/\s+/g, '')) { // 去空格
         this.errors = {
           password: '请输入新密码'
         }
@@ -91,47 +91,11 @@ export default {
         return true
       }
     },
-    clearErrors: function (name) {
-      if (name === 'password' && this.errors.password) { // 当前聚焦为password输入框且当前输入框输入有误
-        this.errors.password = ''
-      } else if (name === 'repassword' && this.errors.repassword) {
-        this.errors.repassword = ''
-      } else if (name === 'phone' && this.errors.phone) {
-        this.errors.phone = ''
-      }
-    },
-    showPassword: function () {
-      if (this.iTitle === '显示密码' && this.iClass === 'el-icon-view') {
-        this.iTitle = '隐藏密码'
-        this.iClass = 'el-icon-view_off'
-        this.type = 'text'
-      } else {
-        this.iTitle = '显示密码'
-        this.iClass = 'el-icon-view'
-        this.type = 'password'
-      }
-    },
     getVerifyCode: function () {
       if (this.validatePhone()) {
         // 从后台获取验证码
         this.serverCode = '123456'
         this.validateBtn()
-      }
-    },
-    validatePhone: function () {
-      if (!this.formdata.phone.trim()) {
-        this.errors = {
-          phone: '手机号不能为空'
-        }
-        return false
-      } else if (!/^1[345678]\d{9}$/.test(this.formdata.phone)) {
-        this.errors = {
-          phone: '请填写正确的手机号码'
-        }
-        return false
-      } else {
-        this.errors = {}
-        return true
       }
     },
     validateCode: function () {

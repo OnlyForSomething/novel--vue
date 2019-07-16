@@ -7,6 +7,7 @@ import Axios from 'axios'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/icon/iconfont.css' // 第三方小图标
+import Validate from '../src/utils/validate' // 多次使用的方法抽取为插件
 import ElementUI from 'element-ui'
 // import { Button, Select, Carousel, CarouselItem } from 'element-ui'
 // Vue.use(Button)
@@ -14,6 +15,7 @@ import ElementUI from 'element-ui'
 // Vue.use(CarouselItem)
 // Vue.use(Select)
 Vue.use(ElementUI)
+Vue.use(Validate)
 Vue.prototype.$axios = Axios
 // 跨域代理host的添加
 Vue.prototype.HOST = '/api'

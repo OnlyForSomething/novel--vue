@@ -69,7 +69,6 @@ export default {
 
 <style scoped>
   .show{
-   // display: none;
     position: absolute;
     left: 0;
     top: 0;

@@ -21,6 +21,11 @@ export default new Router({
       path: '/resetPassword',
       name: 'resetPassword',
       component: () => import('../components/resetPassword') // 按需加载
+    },
+    {
+      path: '/registration',
+      name: 'registration',
+      component: () => import('../components/registration')
     }
   ]
 })

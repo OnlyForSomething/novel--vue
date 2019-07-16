@@ -12,6 +12,7 @@
         @focus="$emit('inputFocus',name)"></el-input>
       <!--输入框后的按钮 根据传入的btnTitle判断是否有此按钮-->
       <button v-if="btnTitle" :disabled="disabled" @click="$emit('btnClick')">{{btnTitle}}</button>
+       <!--输入框后的小图标-->
       <i :title="iTitle" v-if="iTitle" :class="iClass" @click="$emit('iClick')"></i>
     </div>
     <!--错误提醒 根据error是否有值判断是否显示错误提醒-->
