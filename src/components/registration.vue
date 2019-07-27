@@ -43,9 +43,7 @@ export default {
         account: '',
         password: '',
         phone: '',
-        email: '',
-        realname: '',
-        idcard: ''
+        email: ''
       },
       repassword: '',
       errors: {},

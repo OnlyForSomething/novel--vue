@@ -26,6 +26,26 @@ export default new Router({
       path: '/registration',
       name: 'registration',
       component: () => import('../components/registration')
+    },
+    {
+      path: '/homepage',
+      name: 'homepage',
+      component: () => import('../components/homepage'),
+      // 二级路由(嵌套路由)默认加载页面
+      redirect: '/homepage/personalIndex',
+      // 二级路由(嵌套路由)
+      children: [
+        {
+          path: 'personalIndex',
+          name: 'personalIndex',
+          component: () => import('../components/personal/index')
+        },
+        {
+          path: 'financialCenter',
+          name: 'financialCenter',
+          component: () => import('../components/personal/financialCenter')
+        }
+      ]
     }
   ]
 })

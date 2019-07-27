@@ -70,7 +70,7 @@ export default {
         viewPassword: function () {
           if (this.iTitle === '显示密码' && this.iClass === 'el-icon-view') {
             this.iTitle = '隐藏密码'
-            this.iClass = 'el-icon-view_off'
+            this.iClass = 'el-icon-third-view_off'
             this.type = 'text'
           } else {
             this.iTitle = '显示密码'
@@ -106,6 +106,9 @@ export default {
           } else if (name === 'email' && this.errors.email) {
             this.errors.email = ''
           }
+        },
+        isCurrentLi: function (index) {
+          this.currentLi = index // 将当前li的index赋值给currentLi
         }
       }
     })
