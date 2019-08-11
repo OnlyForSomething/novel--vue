@@ -1,9 +1,9 @@
 <template>
   <div class="reset_form">
     <!--改密码的账号-->
-    <InputGroup class="input" type="text" :readonly=readonly v-model="formdata.account" />
+    <InputGroup class="input" type="text" :readonly=readonly v-model="user.account" />
       <!--新密码-->
-    <InputGroup name="password" class="input" :type="type" v-model="formdata.password"
+    <InputGroup name="password" class="input" :type="type" v-model="user.password"
                 placeholder="6-16位由字母、数字组成的密码"
                 :iTitle="iTitle"
                 :iClass="iClass"
@@ -17,7 +17,7 @@
                 @inputBlur="validateRepassword"
                 @inputFocus="clearErrors"/>
     <!--手机号-->
-   <InputGroup name="phone" class="input" type="text" v-model="formdata.phone"
+   <InputGroup name="phone" class="input" type="text" v-model="user.phone"
               placeholder="手机号"
               :btnTitle="btnTitle"
               :disabled="disabled"
@@ -39,7 +39,7 @@ export default {
   name: 'rsetPassword',
   data () {
     return {
-      formdata: {
+      user: {
         account: this.$route.query.account, // 接收路由传的参数
         password: '',
         phone: ''
@@ -62,12 +62,12 @@ export default {
   methods: {
     validatePassword: function () {
       let reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/
-      if (!this.formdata.password.replace(/\s+/g, '')) { // 去空格
+      if (!this.user.password.replace(/\s+/g, '')) { // 去空格
         this.errors = {
           password: '请输入新密码'
         }
         return false
-      } else if (!reg.test(this.formdata.password)) {
+      } else if (!reg.test(this.user.password)) {
         this.errors = {
           password: '请输入由数字和字母组成的6-16位密码'
         }
@@ -82,7 +82,7 @@ export default {
           repassword: '请再次输入新密码'
         }
         return false
-      } else if (this.formdata.password !== this.repassword) {
+      } else if (this.user.password !== this.repassword) {
         this.errors = {
           repassword: '两次输入的密码不同'
         }

@@ -6,9 +6,19 @@
     <div>
       <div class="top-nav">
         <div class="box-center cf">
-          <div @click="showLogin" class="sign-out">
+          <!--未登陆显示-->
+          <div v-if="!this.$store.getters.authorStatus" @click="showLogin" class="sign-out">
             <img src="../assets/loginout.jpg"/>
             <div class="font">登陆</div>
+          </div>
+          <!--登陆后显示 this.$store.getters.authorStatus为是否登陆的状态，保存在vuex的store中 -->
+          <div v-if="this.$store.getters.authorStatus" class="sign-out">
+            <div class="font">您好,书友
+              <router-link :to="{name: 'homepage'}">{{this.$store.getters.account}}</router-link>
+              <span>&nbsp|&nbsp</span>
+              <!--<router-link :to="{name: 'index'}"><span @click="exit">[退出]</span></router-link>-->
+              <router-link :to="{name: 'index'}" @click.native="exit">[退出]</router-link>
+            </div>
           </div>
         </div>
       </div>
@@ -34,6 +44,7 @@
 <script>
 import Navlist from './navlist'
 import Login from './login'
+import {mapMutations} from 'vuex'
 export default {
   name: 'index',
   data () {
@@ -46,7 +57,7 @@ export default {
         'https://www.23us.so/files/article/image/9/9579/9579s.jpg',
         'https://www.23us.so/files/article/image/17/17795/17795s.jpg'
       ],
-      formdata: {},
+      user: {},
       show: 0 // 登陆模块默认不显示
     }
   },
@@ -55,6 +66,7 @@ export default {
     Login
   },
   methods: {
+    ...mapMutations(['clearStatus']),
     showLogin: function () {
       if (this.show === 0) {
         this.show = !this.show
@@ -62,6 +74,10 @@ export default {
     },
     hideLogin: function (data) {
       this.show = 1 ? data : this.show
+    },
+    exit: function () {
+      console.log('退出')
+      this.clearStatus()
     }
   }
 }

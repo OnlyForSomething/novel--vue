@@ -1,11 +1,11 @@
 <template>
 <div class="reset_form">
-  <InputGroup name="account" class="input"  v-model="formdata.account"
+  <InputGroup name="account" class="input"  v-model="user.account"
               placeholder="用户名"
               @inputBlur="validateAccount"
               @inputFocus="clearErrors"
               :error="errors.account"/>
-  <InputGroup name="password" class="input" :type="type" v-model="formdata.password"
+  <InputGroup name="password" class="input" :type="type" v-model="user.password"
               placeholder="6-16位由字母、数字组成的密码"
               :iTitle="iTitle"
               :iClass="iClass"
@@ -18,12 +18,12 @@
               placeholder="再次输入新密码"
               @inputBlur="validateRepassword"
               @inputFocus="clearErrors"/>
-  <InputGroup name="phone" class="input"  v-model="formdata.phone"
+  <InputGroup name="phone" class="input"  v-model="user.phone"
               placeholder="本人使用中的手机号码"
               @inputBlur="validatePhone"
               @inputFocus="clearErrors"
               :error="errors.phone"/>
-  <InputGroup name="email" class="input"  v-model="formdata.email"
+  <InputGroup name="email" class="input"  v-model="user.email"
               placeholder="邮箱"
               @inputBlur="validateEmail"
               @inputFocus="clearErrors"
@@ -39,7 +39,7 @@ export default {
   name: 'registration',
   data () {
     return {
-      formdata: {
+      user: {
         account: '',
         password: '',
         phone: '',

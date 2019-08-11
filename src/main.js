@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Axios from 'axios'
+import store from '../src/store'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/icon/iconfont.css' // 第三方小图标
@@ -23,9 +24,44 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 
+//  请求拦截
+Axios.interceptors.request.use(
+  config => {
+    if (localStorage.Authorization) {
+      config.headers.Authorization = localStorage.Authorization
+      console.log('请求拦截')
+    }
+    return config
+  },
+  error => {
+    return Promise.reject(error)
+  })
+// 响应拦截
+Axios.interceptors.response.use(
+  response => {
+    return response
+  },
+  error => {
+    if (error.response) {
+      console.log(error.response.status)
+      switch (error.response.status) {
+        case 401:
+          alert('登陆信息过期请重新登陆')
+          store.commit('clearStatus')
+          router.push({
+            name: 'login'
+            // query: {redirect: router.currentRoute.fullPath}//登录成功后跳入浏览的当前页面
+          })
+          break
+      }
+    }
+  }
+
+)
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

@@ -2,15 +2,15 @@
   <div>
     <div class="home-user-wrapper qdp-border">
       <div class="home-user-avatar" >
-        <a href="#" class="user-avatar-a"><img class="user-avatar-img" src="../../assets/default_user.0.1.png" alt="书友xxx的头像" ></a>
+        <a href="#" class="user-avatar-a"><img class="user-avatar-img" src="../../assets/default_user.0.1.png" :alt="avatarAlt" ></a>
         <a href="#" target="_blank" class="home-user-vip icon icon-pt"></a>
       </div>
       <div class="home-user" >
         <div class="qdp-button">
-          <a href="#" class="qdp-button-a mlr4" target="_blank" >个人主页</a>
+          <a href="#" class="qdp-button-a mlr4" @click="test">个人主页</a>
           <a href="# " class="qdp-button-a qdp-button-icon ml12"><i class=" el-icon-s-tools" ></i></a>
         </div>
-        <h3><a href="#">书友xxx</a><a href="#" class="home-user-level" >Lv0</a></h3>
+        <h3><a href="#">书友{{this.$store.getters.account}}</a><a href="#" class="home-user-level" >Lv0</a></h3>
         <div class="home-user-safety">
           <a href="#" >安全级别<div class="user-progress-wrapper">
             <div class="qdp-progress-totle">
@@ -65,6 +65,7 @@ export default {
   name: 'index',
   data () {
     return {
+      avatarAlt: '书友' + this.$store.getters.account + '的头像',
       list: [
         {icon: 'el-icon-third-renminbi yellow', title: '账户余额', count1: 0, msg1: '书币', amsg: '充值', link: '#'},
         {icon: 'el-icon-third-piaojia green', title: '我的票夹', count1: 0, count2: 0, msg1: '月票', msg2: '推荐票', amsg: '立即查看', link: '#'},
@@ -78,12 +79,25 @@ export default {
         {tips: '开启礼包有机会获得经验值+25,经验值+50,书币+5', num: '80', status: '未领取'},
         {tips: '开启礼包有机会获得经验值+30,经验值+60,书币+10', num: '100', status: '未领取'}
       ],
-      currentLi: -1
+      currentLi: -1,
+      user: {
+        account: '2',
+        userId: '1'
+      }
     }
   },
   methods: {
     isLeave: function () {
       this.currentLi = -1
+    },
+    test: function () { // 与后台进行token是否过期的数据交互测试方法
+      this.$axios.put('api/users/user', this.user, {timeout: 1000 * 60 * 2})
+        .then(res => {
+          console.log(res.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }

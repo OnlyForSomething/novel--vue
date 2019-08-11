@@ -21,12 +21,13 @@ npm run build --report
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader)
 
 问题集：
+--------------------- ---------------------
 2019-7-10
 Error in event handler for "input": "TypeError: Cannot read property 'value' of undefined"
 将el-input作为一个components组件时 父组件使用该子组件时 el-input无法输入值
 解决：将子组件(inputGroup)中该输入事件的  @input="$emit( 'input',$event.target.value)"改为 @input="$emit( 'input',$event)"
 但是：why？(没弄清原理)
-
+--------------------- ---------------------
 2019-7-11
 父组件中多次使用子组件(在resetPassword中新密码输入和再次输入使用了inputGroup作为输入框 两者都监听了聚焦事件)
 想要实现的是 在提示有错误时 在鼠标聚焦到当前输入框时 错误提示暂时消失 (如 输入新密码 的input框下提示有错误 只有在鼠标点击输入新密码 的input框 该提示暂时消失
@@ -51,7 +52,7 @@ clearErrors: function (name) {
             this.errors.repassword = ''
          }
    }
-
+--------------------- ---------------------
 2019-7-16
 1.Method "showPassword" has already been defined as a prop
 2.Avoid mutating a prop directly since the value will be overwritten whenever the parent component re-renders. Instead, use a data or computed property based on the prop's value. Prop being mutated: "showPassword"
@@ -59,3 +60,8 @@ clearErrors: function (name) {
 函数方法，怎么就Expected Boolean了呢？
 解决：将方法名showPassword修改为其它名字就ok了
 原因：类似Java的保留关键字？(在方法抽取时，只有showPassword报错 改为viewPassword后以上3个错误都没了)
+--------------------- ---------------------
+2019-8-11
+在<router-link>中加入了点击事件 <router-link @click='xxx'>该点击事件无响应
+解决：在<router-link>中再包裹一层DOM元素 如<router-link><span @click='xxx'></span></router-link>
+      或者在事件后加上.native <router-link @click.native='xxx'>

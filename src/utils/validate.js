@@ -6,12 +6,12 @@ export default {
                注入其实就是和写在内部methods中等同 */
       methods: {
         validateAccount: function () {
-          if (!this.formdata.account.replace(/\s+/g, '')) { // 去空格
+          if (!this.user.account.replace(/\s+/g, '')) { // 去空格
             this.errors = {
               account: '请输入用户名'
             }
             return false
-          } else if (!this.formdata.account.match('^[a-zA-Z0-9_\u4e00-\u9fa5]+$')) {
+          } else if (!this.user.account.match('^[a-zA-Z0-9_\u4e00-\u9fa5]+$')) {
             this.errors = {
               account: '用户名不能有特殊符号'
             }
@@ -22,12 +22,12 @@ export default {
         },
         validatePassword: function () {
           let reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/
-          if (!this.formdata.password.replace(/\s+/g, '')) { // 去空格
+          if (!this.user.password.replace(/\s+/g, '')) { // 去空格
             this.errors = {
               password: '请输入密码'
             }
             return false
-          } else if (!reg.test(this.formdata.password)) {
+          } else if (!reg.test(this.user.password)) {
             this.errors = {
               password: '请输入由数字和字母组成的6-16位密码'
             }
@@ -42,7 +42,7 @@ export default {
               repassword: '请再次输入密码'
             }
             return false
-          } else if (this.formdata.password !== this.repassword) {
+          } else if (this.user.password !== this.repassword) {
             this.errors = {
               repassword: '两次输入的密码不同'
             }
@@ -52,12 +52,12 @@ export default {
           }
         },
         validatePhone: function () {
-          if (!this.formdata.phone.trim()) {
+          if (!this.user.phone.trim()) {
             this.errors = {
               phone: '手机号不能为空'
             }
             return false
-          } else if (!/^1[345678]\d{9}$/.test(this.formdata.phone)) {
+          } else if (!/^1[345678]\d{9}$/.test(this.user.phone)) {
             this.errors = {
               phone: '请填写正确的手机号码'
             }
@@ -80,12 +80,12 @@ export default {
         },
         validateEmail: function () {
           let reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-          if (!this.formdata.email.replace(/\s+/g, '')) { // 去空格
+          if (!this.user.email.replace(/\s+/g, '')) { // 去空格
             this.errors = {
               email: '请输入邮箱'
             }
             return false
-          } else if (!reg.test(this.formdata.email)) {
+          } else if (!reg.test(this.user.email)) {
             this.errors = {
               email: '请输入正确的邮箱'
             }
@@ -109,6 +109,14 @@ export default {
         },
         isCurrentLi: function (index) {
           this.currentLi = index // 将当前li的index赋值给currentLi
+        },
+        isEmpty: function (value) {
+          return (
+            value === undefined ||
+            value === null ||
+            (typeof value === 'object' && Object.keys(value).length === 0) ||
+            (typeof value === 'string' && value.replace(' ', '').length === 0)
+          )
         }
       }
     })
