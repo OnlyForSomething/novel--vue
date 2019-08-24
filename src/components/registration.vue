@@ -39,27 +39,52 @@ export default {
   name: 'registration',
   data () {
     return {
-      user: {
-        account: '',
-        password: '',
-        phone: '',
-        email: ''
-      },
+      user: {},
       repassword: '',
       errors: {},
       type: 'password',
       iTitle: '显示密码',
       iClass: 'el-icon-view',
-      disabled: false
+      disabled: false,
+      aes_key: '',
+      aes_iv: ''
     }
   },
   components: {
     InputGroup
   },
+  created () {
+    this.getEncryptParams()
+  },
   methods: {
     register: function () {
       if (this.validateAccount() && this.validatePassword() && this.validateRepassword() && this.validatePhone() && this.validateEmail()) {
         // 向后台提交数据
+        this.$axios.post('api/user', {requestData: this.Encrypt(JSON.stringify(this.user), this.aes_key, this.aes_iv)}, {timeout: 1000 * 60 * 2})
+          .then(res => {
+            if (res.data.msg) {
+              // element Message消息提示
+              this.$message({
+                showClose: true, // 显示关闭按钮
+                message: res.data.msg,
+                type: 'error',
+                center: true // 文字居中
+              })
+            } else {
+              this.$router.push('/')
+            }
+          })
+          .catch(error => {
+            if (error.response.status === 504) {
+              console.log(error)
+              this.$message({
+                showClose: true, // 显示关闭按钮
+                message: '服务器出错,请稍后重新登陆',
+                type: 'error',
+                center: true // 文字居中
+              })
+            }
+          })
       }
     }
   }
@@ -84,7 +109,7 @@ export default {
     font-size: 10px;
   }
   a:hover{
-    color: red;
+    color: blue;
     cursor: pointer;
   }
 </style>

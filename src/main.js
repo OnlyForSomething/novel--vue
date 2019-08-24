@@ -9,6 +9,7 @@ import store from '../src/store'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/icon/iconfont.css' // 第三方小图标
 import Validate from '../src/utils/validate' // 多次使用的方法抽取为插件
+import Crypt from '../src/utils/secret'
 import ElementUI from 'element-ui'
 // import { Button, Select, Carousel, CarouselItem } from 'element-ui'
 // Vue.use(Button)
@@ -17,6 +18,7 @@ import ElementUI from 'element-ui'
 // Vue.use(Select)
 Vue.use(ElementUI)
 Vue.use(Validate)
+Vue.use(Crypt)
 Vue.prototype.$axios = Axios
 // 跨域代理host的添加
 Vue.prototype.HOST = '/api'
@@ -27,9 +29,15 @@ Vue.config.productionTip = false
 //  请求拦截
 Axios.interceptors.request.use(
   config => {
+    let url = config.url
+    console.log(url)
     if (localStorage.Authorization) {
       config.headers.Authorization = localStorage.Authorization
       console.log('请求拦截')
+    }
+    if (url.split('/').pop() === 'OAuth') {
+      // config.data.requestData = Crypt.Encrypt(JSON.stringify(config.data))
+      console.log(config.data)
     }
     return config
   },

@@ -44,8 +44,13 @@ export default {
       ErrMsg: {
         account: '',
         password: ''
-      }
+      },
+      aes_key: '',
+      aes_iv: ''
     }
+  },
+  created () {
+    this.getEncryptParams()
   },
   methods: {
     ...mapMutations(['changeLogin']),
@@ -81,8 +86,9 @@ export default {
     submit: function () {
       this.validateAccount()
       this.validatePassword()
-      if (this.ErrMsg.account === '' && this.ErrMsg.password === '') {
-        this.$axios.post('api/users/OAuth', this.user, {timeout: 1000 * 60 * 2})
+      // console.log(this.Encrypt(JSON.stringify(this.user), this.aes_key, this.aes_iv))
+      if (this.ErrMsg.account === '' && this.ErrMsg.password === '' && this.aes_key && this.aes_iv) {
+        this.$axios.post('api/OAuth', {requestData: this.Encrypt(JSON.stringify(this.user), this.aes_key, this.aes_iv)}, {timeout: 1000 * 60 * 2})
           .then(res => {
             if (res.data.msg) {
               // element Message消息提示
@@ -96,7 +102,7 @@ export default {
             } else {
               console.log(res.data.token)
               this.$router.push('/')
-              this.changeLogin({Authorization: res.data.token, authorStatus: 1, account: this.user.account})
+              this.changeLogin({Authorization: res.data.token, authorStatus: 1, account: this.user.account, user_id: res.data.user_id})
               if (this.validatePassword() && this.validateAccount() &&
                 this.ErrMsg.account === '' && this.ErrMsg.password === '') {
                 this.hideLogin()
@@ -114,7 +120,7 @@ export default {
           //   }
           // })
           .catch(error => {
-            if (error.response.status === 504) {
+            if (error.response.status && error.response.status === 504) {
               console.log(error)
               this.$message({
                 showClose: true, // 显示关闭按钮

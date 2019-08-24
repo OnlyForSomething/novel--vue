@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="show" v-show="show">
+    <div class="show" v-if="show"><!-- v-if根据条件是否为真判断是否创建 v-show先创建根据条件是否为真判断是否显示 -->
       <Login @hide="hideLogin"></Login>
     </div>
     <div>

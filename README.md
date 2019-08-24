@@ -65,3 +65,10 @@ clearErrors: function (name) {
 在<router-link>中加入了点击事件 <router-link @click='xxx'>该点击事件无响应
 解决：在<router-link>中再包裹一层DOM元素 如<router-link><span @click='xxx'></span></router-link>
       或者在事件后加上.native <router-link @click.native='xxx'>
+--------------------- ---------------------
+2019-8-20
+加密时发现每次加密后的结果不一致
+原因：aes 加密 使用的key iv 需是16进制的byte[] 而在传入 aes_key aes_iv时是直接传入的字符串
+解决：将参数转码 获取需要的字节码  let key = CryptoJS.enc.Utf8.parse(aes_key)
+                                   let iv = CryptoJS.enc.Utf8.parse(aes_iv)
+最先直接定义key iv时 是转过码的 后来从后台获取后就直接将字符串传入函数没做转码处理
