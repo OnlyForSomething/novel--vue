@@ -61,11 +61,34 @@ Axios.interceptors.response.use(
             // query: {redirect: router.currentRoute.fullPath}//登录成功后跳入浏览的当前页面
           })
           break
+        default: return Promise.reject(error) // 如果状态码不是401 就将error返回给请求回应
       }
     }
   }
 
 )
+/**
+ *对数字进行处理 每3位以逗号隔开
+ */
+Vue.filter('NumFormat', function (value) {
+  if (!value) return '0.00'
+  let intPart = Number(value) | 0 // 获取整数部分
+  let intPartFormat = intPart.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,') // 将整数部分逢三一断
+  let floatPart = '.00' // 预定义小数部分
+  let value2Array = value.toString().split('.')
+  // =2表示数据有小数位
+  if (value2Array.length === 2) {
+    floatPart = value2Array[1].toString() // 拿到小数部分
+    // if (floatPart.length === 1) { // 补0,实际上用不着
+    //   return intPartFormat + '.' + floatPart + '0'
+    // } else {
+    //   return intPartFormat + '.' + floatPart
+    // }
+    return intPartFormat + '.' + floatPart
+  } else {
+    return intPartFormat
+  }
+})
 new Vue({
   el: '#app',
   router,

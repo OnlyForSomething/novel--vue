@@ -6,7 +6,7 @@ export default {
                注入其实就是和写在内部methods中等同 */
       methods: {
         validateAccount: function () {
-          if (!this.user.account.replace(/\s+/g, '')) { // 去空格
+          if (this.isEmpty(this.user.account)) {
             this.errors = {
               account: '请输入用户名'
             }
@@ -22,7 +22,7 @@ export default {
         },
         validatePassword: function () {
           let reg = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/
-          if (!this.user.password.replace(/\s+/g, '')) { // 去空格
+          if (this.isEmpty(this.user.password)) {
             this.errors = {
               password: '请输入密码'
             }
@@ -37,7 +37,7 @@ export default {
           }
         },
         validateRepassword: function () {
-          if (!this.repassword.trim()) {
+          if (this.isEmpty(this.repassword)) {
             this.errors = {
               repassword: '请再次输入密码'
             }
@@ -52,7 +52,7 @@ export default {
           }
         },
         validatePhone: function () {
-          if (!this.user.phone.trim()) {
+          if (this.isEmpty(this.user.phone)) {
             this.errors = {
               phone: '手机号不能为空'
             }
@@ -80,7 +80,7 @@ export default {
         },
         validateEmail: function () {
           let reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-          if (!this.user.email.replace(/\s+/g, '')) { // 去空格
+          if (this.isEmpty(this.user.email)) { // 去空格
             this.errors = {
               email: '请输入邮箱'
             }

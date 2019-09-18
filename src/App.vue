@@ -1,16 +1,22 @@
 <template>
   <div id="app">
     <router-view/>
+    <div class="copyright" v-if="$route.meta.showCopyright != false">
+      <Copyright/>
+    </div>
   </div>
 </template>
 
 <script>
-
+import Copyright from './components/copyright'
 export default {
   name: 'App',
   data () {
     return {
     }
+  },
+  components: {
+    Copyright
   }
 }
 </script>
@@ -33,5 +39,10 @@ export default {
 }
 a{
   text-decoration: none;
+}
+.copyright{
+  width: 100%;
+  float: left;
+  margin-top: 25px;
 }
 </style>

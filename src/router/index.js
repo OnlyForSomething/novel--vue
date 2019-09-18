@@ -25,6 +25,7 @@ const router = new Router({
     {
       path: '/login',
       name: 'login',
+      meta: {showCopyright: false}, // 不显示copyright
       component: () => import('../components/login'),
       beforeEnter (to, from, next) {
         // if (from.path === '/') {

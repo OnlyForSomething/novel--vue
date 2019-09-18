@@ -25,7 +25,7 @@
       </div>
       <el-button   style="width: 300px;margin-bottom: 10px"  @click="submit">登陆</el-button>
       <!--query方式传参 f5强制刷新时参数不丢失-->
-      <div style="color: #b3d4fc ;font-size: 14px"><router-link :to="{ name:'resetPassword',query:{username:user.account}}">忘记密码</router-link>
+      <div style="color: #b3d4fc ;font-size: 14px"><router-link :to="{ name:'resetPassword',query:{account:user.account}}">忘记密码</router-link>
         <span>|</span>
        <router-link :to="{name: 'registration'}">免费注册</router-link>
       </div>
@@ -39,7 +39,9 @@ export default {
   name: 'login',
   data () {
     return {
-      user: {},
+      user: {
+        account: this.$route.query.account ? this.$route.query.account : ''
+      },
       show: 0, // 登陆块是否显示
       ErrMsg: {
         account: '',
@@ -120,11 +122,18 @@ export default {
           //   }
           // })
           .catch(error => {
+            console.log(error)
             if (error.response.status && error.response.status === 504) {
-              console.log(error)
               this.$message({
                 showClose: true, // 显示关闭按钮
                 message: '服务器出错,请稍后重新登陆',
+                type: 'error',
+                center: true // 文字居中
+              })
+            } else {
+              this.$message({
+                showClose: true, // 显示关闭按钮
+                message: error.response.data.msg,
                 type: 'error',
                 center: true // 文字居中
               })

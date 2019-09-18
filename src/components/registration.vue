@@ -71,7 +71,11 @@ export default {
                 center: true // 文字居中
               })
             } else {
-              this.$router.push('/')
+              // 注册成功 跳转到登陆页面  路由传参account给login页面
+              this.$router.push({
+                name: 'login',
+                query: {account: this.user.account}
+              })
             }
           })
           .catch(error => {
@@ -80,6 +84,13 @@ export default {
               this.$message({
                 showClose: true, // 显示关闭按钮
                 message: '服务器出错,请稍后重新登陆',
+                type: 'error',
+                center: true // 文字居中
+              })
+            } else {
+              this.$message({
+                showClose: true, // 显示关闭按钮
+                message: error.response.data.msg,
                 type: 'error',
                 center: true // 文字居中
               })
